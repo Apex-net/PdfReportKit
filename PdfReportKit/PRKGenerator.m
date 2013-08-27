@@ -87,6 +87,38 @@ static NSArray * reportDefaultTags = nil;
     [self.renderingQueue addOperation:test];
 }
 
+- (void)createReportWithName:(NSString *)reportName templateString:(NSString *)templateHtml itemsPerPage:(NSUInteger)itemsPerPage totalItems:(NSUInteger)totalItems pageOrientation:(PRKPageOrientation)orientation dataSource: (id<PRKGeneratorDataSource>)dataSource delegate: (id<PRKGeneratorDelegate>)delegate error:(NSError *__autoreleasing *)error
+{
+// TODO: replace and add report processing to queue
+    if (self.renderingQueue.operationCount > 0)
+        return;
+    
+    self.dataSource = dataSource;
+    self.delegate = delegate;
+    currentReportData = [NSMutableData data];
+    template = [GRMustacheTemplate templateFromString:templateHtml error:error];
+    if (*error)
+        return;
+    
+    if (orientation == PRKPortraitPage)
+        UIGraphicsBeginPDFContextToData(currentReportData, CGRectMake(0, 0, 800, 1000), nil);
+    else
+        UIGraphicsBeginPDFContextToData(currentReportData, CGRectMake(0, 0, 1000, 800), nil);
+    
+    currentReportItemsPerPage = itemsPerPage;
+    currentNumberOfItems = currentReportItemsPerPage;
+    currentMaxItemsSinglePage = itemsPerPage;
+    currentMinItemsSinglePage = itemsPerPage;
+    currentReportTotalItems = totalItems;
+    currentSuccessSinglePage = NO;
+    remainingItems = 0;
+    
+    
+    NSInvocationOperation * test = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(createPage:) object:[NSNumber numberWithInteger:0]];
+    [self.renderingQueue addOperation:test];
+}
+
+
 - (void)createPage: (NSNumber *)page
 {
     int i = [page intValue];
