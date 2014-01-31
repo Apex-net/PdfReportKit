@@ -214,7 +214,7 @@ static NSArray * reportDefaultTags = nil;
     else if (sectionType == PRKSectionTypeFooter)
         footerFormatter = formatter;
     else
-        [NSException raise:@"Invalid Section Type" format:@"Section Type: %ld is invalid", sectionType];
+        [NSException raise:@"Invalid Section Type" format:@"Section Type: %d is invalid", sectionType];
 }
 
 - (void)renderPage
