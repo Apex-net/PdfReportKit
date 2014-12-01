@@ -67,8 +67,7 @@
 - (void)drawFooterForPageAtIndex:(NSInteger)pageIndex inRect:(CGRect)footerRect
 {
     PRKPageRenderer * r = [[PRKPageRenderer alloc] init];
-    r.pageRect = CGRectMake(footerRect.origin.x, footerRect.origin.y - 20, footerRect.size.width, footerRect.size.height + self.footerHeight);
-    
+    r.pageRect = CGRectMake(self.pageRect.origin.x, footerRect.origin.y - 20, self.pageRect.size.width, self.pageRect.size.height);    
     [r addPrintFormatter:footerPrintFormatter startingAtPageAtIndex:0];
     [r drawPageAtIndex:0 inRect:footerRect];
 }
