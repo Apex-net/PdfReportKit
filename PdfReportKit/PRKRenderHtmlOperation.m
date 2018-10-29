@@ -69,13 +69,12 @@
 {
     webView.delegate = nil;
     [self.delegate didFinishLoadingSection:htmlSectionType withPrintFormatter:renderingWebView.viewPrintFormatter];
+    
     [self willChangeValueForKey:@"isFinished"];
-    finished = YES;
-    [self didChangeValueForKey:@"isFinished"];
-    
     [self willChangeValueForKey:@"isExecuting"];
-    
+    finished = YES;
     executing = NO;
+    [self didChangeValueForKey:@"isFinished"];
     [self didChangeValueForKey:@"isExecuting"];
     
 }
